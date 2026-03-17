@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Devis | Coming Soon</title>
+    <style>
+        :root {
+            --primary-blue: #00d4ff;
+            --deep-space: #0a0b10;
+            --text-light: #e0e0e0;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--deep-space);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-light);
+        }
+
+        /* The Data Particle Canvas */
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        /* Overlay Content */
+        .content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            background: radial-gradient(circle, rgba(10,11,16,0.3) 0%, rgba(10,11,16,0.8) 100%);
+        }
+
+        .logo-container {
+            margin-bottom: 20px;
+            animation: fadeInDown 1.5s ease-out;
+        }
+
+        h1 {
+            font-size: 4rem;
+            letter-spacing: 8px;
+            margin: 0;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #fff, var(--primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+        }
+
+        p {
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            color: var(--primary-blue);
+            margin-top: 10px;
+            opacity: 0.8;
+            text-transform: uppercase;
+        }
+
+        .status-badge {
+            margin-top: 40px;
+            padding: 8px 20px;
+            border: 1px solid var(--primary-blue);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 5px rgba(0, 212, 255, 0.2); }
+            50% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.5); }
+            100% { box-shadow: 0 0 5px rgba(0, 212, 255, 0.2); }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            p { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="canvas"></canvas>
+
+    <div class="content">
+        <div class="logo-container">
+            <h1>DATA DEVIS</h1>
+            <p>Architecting the Intelligence Era</p>
+        </div>
+        
+        <div class="status-badge">
+            SYSTEM INITIALIZING . . . COMING SOON
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const properties = {
+            bgColor: 'rgba(10, 11, 16, 1)',
+            particleColor: 'rgba(0, 212, 255, 1)',
+            particleRadius: 3,
+            particleCount: 80,
+            particleMaxVelocity: 0.5,
+            lineLength: 150,
+            particleLife: 6
+        };
+
+        window.onresize = function() {
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+        };
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.velocityX = Math.random() * (properties.particleMaxVelocity * 2) - properties.particleMaxVelocity;
+                this.velocityY = Math.random() * (properties.particleMaxVelocity * 2) - properties.particleMaxVelocity;
+            }
+
+            position() {
+                if (this.x + this.velocityX > canvas.width || this.x + this.velocityX < 0) this.velocityX *= -1;
+                if (this.y + this.velocityY > canvas.height || this.y + this.velocityY < 0) this.velocityY *= -1;
+                this.x += this.velocityX;
+                this.y += this.velocityY;
+            }
+
+            reDraw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, properties.particleRadius, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.fillStyle = properties.particleColor;
+                ctx.fill();
+            }
+        }
+
+        function drawLines() {
+            let x, y, dist, opacity;
+            for (let i in particles) {
+                for (let j in particles) {
+                    x = particles[i].x - particles[j].x;
+                    y = particles[i].y - particles[j].y;
+                    dist = Math.sqrt(x * x + y * y);
+                    if (dist < properties.lineLength) {
+                        opacity = 1 - dist / properties.lineLength;
+                        ctx.lineWidth = '0.5';
+                        ctx.strokeStyle = `rgba(0, 212, 255, ${opacity})`;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.closePath();
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function reDrawBackground() {
+            ctx.fillStyle = properties.bgColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function loop() {
+            reDrawBackground();
+            for (let i in particles) {
+                particles[i].position();
+                particles[i].reDraw();
+            }
+            drawLines();
+            requestAnimationFrame(loop);
+        }
+
+        function init() {
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+            for (let i = 0; i < properties.particleCount; i++) {
+                particles.push(new Particle());
+            }
+            loop();
+        }
+
+        init();
+    </script>
+</body>
+</html>
