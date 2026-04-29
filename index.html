@@ -6,6 +6,8 @@
 <title>Data Devis – Empowering Every Dimension of Your Life</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
 :root{
   --sky:#5BC8F5;--sky-light:#A8E6FA;--sky-dark:#1E9FD4;
@@ -127,51 +129,16 @@ section{padding:100px 5%}
 .svc-cta{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:50px;background:var(--grad3);color:white;font-weight:600;font-size:.87rem;cursor:pointer;border:none;transition:transform .3s,box-shadow .3s;font-family:'DM Sans',sans-serif}
 .svc-cta:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(91,200,245,.45)}
 
-/* ANIMATION BACKGROUND (FLOATING ICONS) */
-.svc-bg-animation {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.4;
-  overflow: hidden;
-  border-radius: 22px;
-}
-.svc-bg-animation .ani-icon {
-  position: absolute;
-  font-size: 2rem;
-  opacity: 0.5;
-  animation: floatBg 8s infinite ease-in-out;
-}
-@keyframes floatBg {
-  0% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
-  50% { transform: translateY(-20px) rotate(6deg); opacity: 0.6; }
-  100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
-}
-.svc-bg-animation .drive-car {
-  animation: driveMove 4s infinite alternate;
-}
-@keyframes driveMove {
-  0% { transform: translateX(-20px); }
-  100% { transform: translateX(20px); }
-}
-.svc-bg-animation .pulse-green {
-  animation: pulseGlow 2s infinite;
-}
-@keyframes pulseGlow {
-  0% { text-shadow: 0 0 0 #8bc34a; opacity: 0.4; }
-  100% { text-shadow: 0 0 15px #6fbf4c; opacity: 0.8; }
-}
-.svc-bg-animation .rotate-slow {
-  animation: rotateSlow 12s infinite linear;
-}
-@keyframes rotateSlow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
+/* ANIMATION BACKGROUND */
+.svc-bg-animation{position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:1;opacity:0.4;overflow:hidden;border-radius:22px}
+.svc-bg-animation .ani-icon{position:absolute;font-size:2rem;opacity:0.5;animation:floatBg 8s infinite ease-in-out}
+@keyframes floatBg{0%{transform:translateY(0px) rotate(0deg);opacity:0.3}50%{transform:translateY(-20px) rotate(6deg);opacity:0.6}100%{transform:translateY(0px) rotate(0deg);opacity:0.3}}
+.svc-bg-animation .drive-car{animation:driveMove 4s infinite alternate}
+@keyframes driveMove{0%{transform:translateX(-20px)}100%{transform:translateX(20px)}}
+.svc-bg-animation .pulse-green{animation:pulseGlow 2s infinite}
+@keyframes pulseGlow{0%{text-shadow:0 0 0 #8bc34a;opacity:0.4}100%{text-shadow:0 0 15px #6fbf4c;opacity:0.8}}
+.svc-bg-animation .rotate-slow{animation:rotateSlow 12s infinite linear}
+@keyframes rotateSlow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 
 /* ABOUT */
 #about{background:white}
@@ -233,8 +200,9 @@ section{padding:100px 5%}
 .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--sky);box-shadow:0 0 0 4px rgba(91,200,245,.14)}
 .fg textarea{resize:vertical;min-height:105px}
 .fg-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.f-sub{width:100%;padding:15px;border-radius:50px;border:none;cursor:pointer;background:var(--grad3);color:white;font-weight:700;font-size:.98rem;font-family:'DM Sans',sans-serif;box-shadow:0 8px 28px rgba(91,200,245,.4);transition:transform .3s,box-shadow .3s}
+.f-sub{width:100%;padding:15px;border-radius:50px;border:none;cursor:pointer;background:var(--grad3);color:white;font-weight:700;font-size:.98rem;font-family:'DM Sans',sans-serif;box-shadow:0 8px 28px rgba(91,200,245,.4);transition:transform .3s,box-shadow .3s,background .3s}
 .f-sub:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(91,200,245,.55)}
+.f-sub:disabled{opacity:.75;cursor:not-allowed;transform:none}
 
 /* FOOTER */
 footer{background:var(--dark);color:white;padding:66px 5% 28px}
@@ -279,6 +247,10 @@ footer{background:var(--dark);color:white;padding:66px 5% 28px}
 .m-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
 .m-cta{display:inline-flex;align-items:center;gap:8px;padding:13px 30px;border-radius:50px;background:var(--grad3);color:white;font-weight:700;font-size:.95rem;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:transform .3s,box-shadow .3s;text-decoration:none}
 .m-cta:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(91,200,245,.45)}
+
+/* EMAILJS SETUP NOTICE */
+.setup-notice{background:linear-gradient(135deg,#FFF3CD,#FFEEBA);border:1px solid #FFC107;border-radius:13px;padding:14px 18px;margin-bottom:20px;font-size:.84rem;color:#856404;display:none}
+.setup-notice strong{display:block;margin-bottom:4px;font-size:.9rem}
 
 @media(max-width:768px){
   .nav-links,.nav-cta{display:none}.hamburger{display:flex}
@@ -459,14 +431,21 @@ footer{background:var(--dark);color:white;padding:66px 5% 28px}
       <div class="rr">
         <div class="cform">
           <h3>Send Us a Message</h3>
-          <div class="fg-row">
-            <div class="fg"><label>Your Name</label><input type="text" placeholder="Full Name"></div>
-            <div class="fg"><label>Phone Number</label><input type="tel" placeholder="+91 XXXXX XXXXX"></div>
+
+          <!-- ⚠️ ADMIN SETUP NOTICE – remove this div after setup is done -->
+          <div class="setup-notice" id="setupNotice">
+            <strong>Ready to get started? Please provide your verified details below so our team can get in touch regarding your inquiry.</strong>
+            We value your privacy and hate spam as much as you do.
           </div>
-          <div class="fg"><label>Email Address</label><input type="email" placeholder="you@example.com"></div>
+
+          <div class="fg-row">
+            <div class="fg"><label>Your Name</label><input type="text" id="f_name" placeholder="Full Name"></div>
+            <div class="fg"><label>Phone Number</label><input type="tel" id="f_phone" placeholder="+91 XXXXX XXXXX"></div>
+          </div>
+          <div class="fg"><label>Email Address</label><input type="email" id="f_email" placeholder="you@example.com"></div>
           <div class="fg">
             <label>Service Interested In</label>
-            <select>
+            <select id="f_service">
               <option value="">Select a Service</option>
               <option>Food Services</option>
               <option>Digital Marketing</option>
@@ -479,9 +458,50 @@ footer{background:var(--dark);color:white;padding:66px 5% 28px}
               <option>EV Vehicle & Digital Strategist</option>
             </select>
           </div>
-          <div class="fg"><label>Your Message</label><textarea placeholder="Tell us more about your requirement..."></textarea></div>
-          <button class="f-sub" onclick="subForm(event)"><i class="fas fa-paper-plane" style="margin-right:8px"></i>Send Message</button>
+          <div class="fg"><label>Your Message</label><textarea id="f_message" placeholder="Tell us more about your requirement..."></textarea></div>
+          <button class="f-sub" id="fSubBtn" onclick="subForm(event)"><i class="fas fa-paper-plane" style="margin-right:8px"></i>Send Message</button>
         </div>
+
+        <!--
+        ════════════════════════════════════════════════════════
+        📧 EMAILJS SETUP – 3 SIMPLE STEPS (FREE, NO BACKEND)
+        ════════════════════════════════════════════════════════
+
+        STEP 1 — Create a free account at https://www.emailjs.com
+                  (Free plan: 200 emails/month — perfect for enquiries)
+
+        STEP 2 — In EmailJS dashboard:
+                  a) Add an Email Service (Gmail recommended)
+                     → Click "Add New Service" → Connect your Gmail
+                     → Copy the SERVICE ID (e.g. "service_abc123")
+
+                  b) Create an Email Template:
+                     → Click "Email Templates" → "Create New Template"
+                     → Set "To Email" = your email (info@datadevis.com)
+                     → Paste this as the template body:
+
+                     Subject: New Enquiry from {{from_name}} – {{service}}
+
+                     Name:    {{from_name}}
+                     Phone:   {{phone}}
+                     Email:   {{from_email}}
+                     Service: {{service}}
+                     Message: {{message}}
+
+                     Sent from Data Devis website contact form.
+
+                     → Copy the TEMPLATE ID (e.g. "template_xyz789")
+
+                  c) Go to "Account" → copy your PUBLIC KEY
+
+        STEP 3 — Replace these 3 values in the script below:
+                  YOUR_PUBLIC_KEY   → your EmailJS public key
+                  YOUR_SERVICE_ID   → your email service ID
+                  YOUR_TEMPLATE_ID  → your template ID
+
+        That's it! All form submissions will land in your inbox. ✅
+        ════════════════════════════════════════════════════════
+        -->
       </div>
     </div>
   </div>
@@ -542,6 +562,19 @@ footer{background:var(--dark);color:white;padding:66px 5% 28px}
 </div>
 
 <script>
+/* ============================================================
+   ⚙️  EMAILJS CONFIG
+   ============================================================ */
+const EMAILJS_PUBLIC_KEY  = 'ughC_XfkGc-J1HI8g';
+const EMAILJS_SERVICE_ID  = 'service_o9vtn2b';
+const EMAILJS_TEMPLATE_ID = 'template_yznv0aa';
+/* ============================================================ */
+
+(function(){
+  document.getElementById('setupNotice').style.display = 'none';
+  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+})();
+
 /* ========== SERVICES DATA ========== */
 const SVCS = [
   {id:'food',icon:'fas fa-utensils',ic:'#FF8C42',bg:'linear-gradient(135deg,#FFF3E8,#FFE4CC)',
@@ -555,52 +588,52 @@ const SVCS = [
    desc:'Data Devis Digital Marketing team delivers comprehensive, results-driven online marketing strategies tailored to your business goals. We blend creative storytelling with data analytics to generate real, measurable growth. From building your social media presence to ranking your website on Google\'s first page — we operate with full transparency, detailed reporting, and relentless optimisation.',
    feats:['Search Engine Optimisation (SEO)','Google & Meta Ads (PPC)','Social Media Management (All Platforms)','Content Marketing & Blog Writing','Email & WhatsApp Marketing','Brand Identity & Logo Design','YouTube Channel Growth & Management','Analytics, Reporting & ROI Tracking'],
    pills:['SEO','Google Ads','Meta Ads','Instagram','Content Strategy','Email Campaigns','Influencer Marketing','Branding & Design'],
-   animIcons: ['fa-chart-line','fa-bullhorn','fa-ad','fa-megaphone']},
+   animIcons: ['fa-chart-line','fa-bullhorn','fa-ad','fa-chart-bar']},
   {id:'webdev',icon:'fas fa-laptop-code',ic:'#7C3AED',bg:'linear-gradient(135deg,#F3E8FF,#EDE9FE)',
    name:'Web & Mobile App Development',tag:'Web · iOS · Android · UI/UX · E-Commerce',brief:'Beautiful, scalable digital products built for the real world',
    desc:'Our development team crafts world-class websites and mobile applications that are fast, secure, and visually stunning. We take a user-first approach — combining cutting-edge technology with thoughtful design to create digital experiences your customers will love and remember. From MVPs to full enterprise platforms, we are your end-to-end technology partner in Hyderabad.',
    feats:['Custom Website Development','React / Next.js Progressive Web Apps','iOS & Android Mobile Applications','E-Commerce Stores (Shopify, Custom)','UI/UX Design & Interactive Prototyping','REST API & Backend Development','CMS & WordPress Development','Post-Launch Maintenance & Support'],
    pills:['React','Node.js','Flutter','iOS','Android','WordPress','E-Commerce','UI/UX Design','API Integration'],
-   animIcons: ['fa-react','fa-android','fa-apple','fa-code']},
+   animIcons: ['fa-laptop-code','fa-mobile-alt','fa-code','fa-database']},
   {id:'finance',icon:'fas fa-piggy-bank',ic:'#10B981',bg:'linear-gradient(135deg,#ECFDF5,#D1FAE5)',
    name:'Financial Services',tag:'Investment · Insurance · Loans · Tax · Planning',brief:'Expert financial guidance for a secure and prosperous future',
    desc:'Data Devis Financial Services offers personalised financial planning, investment advisory, insurance solutions, loan facilitation, and tax consultancy. We help you make smart money decisions today for a more secure and prosperous tomorrow. Our certified advisors take time to understand your unique situation and craft strategies aligned with your short-term and long-term goals.',
    feats:['Personal Financial Planning','Mutual Fund & SIP Investment Advisory','Life, Health & Term Insurance','Home & Business Loan Assistance','Income Tax Planning & ITR Filing','NRI Financial & Repatriation Services','Retirement & Pension Planning','Business Financial Consulting'],
    pills:['Mutual Funds','SIP','Life Insurance','Home Loans','Personal Loans','Tax Filing','Retirement','Wealth Management','NRI Services'],
-   animIcons: ['fa-chart-pie','fa-sack-dollar','fa-arrow-trend-up','fa-coins']},
+   animIcons: ['fa-chart-pie','fa-coins','fa-piggy-bank','fa-landmark']},
   {id:'legal',icon:'fas fa-balance-scale',ic:'#F59E0B',bg:'linear-gradient(135deg,#FFFBEB,#FEF3C7)',
    name:'Legal Advisory',tag:'Property · Corporate · Family · Contracts · Court',brief:'Trusted legal expertise protecting your rights and interests',
    desc:'Data Devis Legal Advisory provides reliable, accessible legal guidance for individuals and businesses across Hyderabad and beyond. Our experienced professionals handle property documentation, business registrations, contract drafting, family law matters, and dispute resolution. We simplify complex legal processes so you can act with confidence and clarity at every step.',
    feats:['Property Documentation & Title Verification','Business Registration (LLP, Pvt Ltd, OPC)','Contract Drafting, Review & Negotiation','Family Law & Matrimonial Disputes','Consumer Forum & RERA Complaints','Rent & Lease Agreement Drafting','Affidavits & Notarisation Services','Legal Consultation & Court Support'],
    pills:['Property Law','Business Law','Family Law','Contracts','RERA','Consumer Rights','Notarisation','Rental Agreements'],
-   animIcons: ['fa-scale-balanced','fa-file-signature','fa-gavel','fa-handcuffs']},
+   animIcons: ['fa-balance-scale','fa-file-alt','fa-gavel','fa-stamp']},
   {id:'realestate',icon:'fas fa-city',ic:'#EF4444',bg:'linear-gradient(135deg,#FEF2F2,#FEE2E2)',
    name:'Real Estate',tag:'Buy · Sell · Rent · Invest · Verify · RERA',brief:'Your trusted guide through every property transaction',
    desc:'Navigating real estate can be complex — but with Data Devis, it doesn\'t have to be. Our experienced real estate team provides end-to-end property solutions including buying, selling, renting, and investment advisory across Hyderabad and Telangana. We conduct thorough legal verification, market valuations, and site visits to ensure every transaction is transparent, safe, and rewarding.',
    feats:['Residential Property Buying & Selling','Commercial Real Estate Transactions','Property Valuation & Market Appraisal','Legal Title & Encumbrance Verification','RERA-Compliant Project Guidance','NRI Property Management Services','Rental Property Management','Investment Portfolio Advisory'],
    pills:['Residential','Commercial','Buy','Sell','Rent','Hyderabad Properties','Plot Investment','RERA Compliance','NRI Properties'],
-   animIcons: ['fa-house-chimney','fa-building','fa-key','fa-city']},
+   animIcons: ['fa-home','fa-building','fa-key','fa-city']},
   {id:'marriage',icon:'fas fa-ring',ic:'#EC4899',bg:'linear-gradient(135deg,#FDF2F8,#FCE7F3)',
    name:'Marriage Bureau (All Castes)',tag:'Matchmaking · All Communities · Verified · Trusted',brief:'Inclusive, respectful matchmaking for every community',
    desc:'Data Devis Marriage Bureau is a trusted, inclusive platform serving all castes, religions, and communities across India. We believe love and companionship know no boundaries. Our personalised matchmaking process is thorough, discreet, and respectful — designed to help individuals and families find the most compatible life partners with dignity, care, and full transparency at every stage.',
    feats:['All-Caste & All-Religion Profile Matching','Verified & Background-Checked Profiles','Personal Family Counselling Sessions','Horoscope & Compatibility Matching','Privacy & Confidentiality Guaranteed','In-Person & Online Consultation Options','Pan-India & NRI Matrimony Network','Dedicated Relationship Manager'],
    pills:['All Castes','All Religions','Hindu','Muslim','Christian','OBC','SC/ST','NRI Matrimony','Inter-Caste'],
-   animIcons: ['fa-heart','fa-ring','fa-hand-holding-heart','fa-heartbeat']},
+   animIcons: ['fa-heart','fa-ring','fa-star','fa-dove']},
   {id:'events',icon:'fas fa-glass-cheers',ic:'#06B6D4',bg:'linear-gradient(135deg,#ECFEFF,#CFFAFE)',
    name:'Marriage Events',tag:'Planning · Décor · Catering · Photography · Entertainment',brief:'Turning your dream wedding into a timeless memory',
    desc:'Data Devis Marriage Events is a full-service wedding and celebration management company. We handle every detail — venue selection, grand décor, catering, entertainment, photography, and guest management. Our creative team transforms your vision into an unforgettable experience, crafting weddings that reflect your unique love story with elegance, emotion, and flawless execution.',
    feats:['Complete Wedding Planning & Coordination','Venue Sourcing & Grand Decoration','Catering, Beverages & Cake Design','Professional Photography & Videography','Live Entertainment, DJ & Sound','Invitation Design & Digital Cards','Floral Arrangements & Mandap Design','Guest Management, Hospitality & RSVP'],
    pills:['Wedding Planning','Engagement','Reception','Mehndi Night','Sangeet','Décor & Lighting','Photography','Destination Weddings','Corporate Events'],
-   animIcons: ['fa-camera','fa-music','fa-champagne-glasses','fa-calendar-alt']},
+   animIcons: ['fa-camera','fa-music','fa-glass-cheers','fa-calendar-check']},
   {id:'ev',icon:'fas fa-charging-station',ic:'#84CC16',bg:'linear-gradient(135deg,#F7FEE7,#ECFCCB)',
    name:'EV Vehicle & Digital Strategist',tag:'EV Advisory · Digital Transformation · Future-Ready',brief:'Future-proofing your mobility and business strategy',
    desc:'Data Devis offers two cutting-edge forward-thinking services: Electric Vehicle (EV) Advisory and Digital Business Strategy. Our EV consultants guide you through the purchase, government subsidies, and charging infrastructure of electric vehicles in India. Our digital strategists help businesses harness the power of data, automation, and technology to gain competitive advantage and scale sustainably in today\'s digital-first world.',
    feats:['EV Model Comparison & Purchase Guidance','FAME Scheme & Government Subsidy Advisory','EV Charging Infrastructure Planning','Total Cost of Ownership Analysis','Digital Transformation Roadmap Creation','Business Process Automation Strategy','Data Analytics & Business Insights','Competitive Market & Growth Analysis'],
    pills:['Electric Vehicles','EV Subsidies','FAME Scheme','Charging Setup','Digital Strategy','Business Automation','Data Analytics','Growth Consulting'],
-   animIcons: ['fa-car-side','fa-leaf','fa-charging-station','fa-solar-panel','fa-chart-line','fa-brain']}
+   animIcons: ['fa-car-side','fa-leaf','fa-charging-station','fa-chart-line']}
 ];
 
-/* ========== BUILD SERVICES WITH ANIMATION CONTAINER ========== */
+/* ========== BUILD SERVICES ========== */
 function buildSvcs(){
   document.getElementById('svcList').innerHTML = SVCS.map((s,i)=>`
     <div class="svc-item reveal" id="si-${s.id}" style="transition-delay:${i*.06}s">
@@ -634,11 +667,9 @@ function buildSvcs(){
 function generateAnimationHTML(serviceId) {
   const svc = SVCS.find(s => s.id === serviceId);
   if (!svc) return '';
-  const icons = svc.animIcons;
-  // Create random positions
   let html = '';
-  icons.forEach((ic, idx) => {
-    const left = 10 + Math.random() * 70; // % random
+  svc.animIcons.forEach((ic, idx) => {
+    const left = 10 + Math.random() * 70;
     const top = 10 + Math.random() * 70;
     const delay = idx * 1.2;
     const duration = 6 + Math.random() * 8;
@@ -658,24 +689,20 @@ function updateAnimationForService(serviceId, isOpen) {
   if (isOpen) {
     animContainer.innerHTML = generateAnimationHTML(serviceId);
     animContainer.style.opacity = '0.5';
-    animContainer.style.transition = 'opacity 0.5s';
-    setTimeout(() => { if(animContainer) animContainer.style.opacity = '0.5'; }, 10);
   } else {
     animContainer.innerHTML = '';
     animContainer.style.opacity = '0';
   }
 }
 
-/* ========== TOGGLE SERVICE WITH ANIMATION ========== */
+/* ========== TOGGLE SERVICE ========== */
 function toggleS(id){
-  const el=document.getElementById('si-'+id);
+  const el = document.getElementById('si-'+id);
   const wasOpen = el.classList.contains('open');
-  // close all others
   document.querySelectorAll('.svc-item').forEach(x => {
     if (x !== el && x.classList.contains('open')) {
-      const oldId = x.id.replace('si-','');
       x.classList.remove('open');
-      updateAnimationForService(oldId, false);
+      updateAnimationForService(x.id.replace('si-',''), false);
     }
   });
   if(!wasOpen){
@@ -690,7 +717,7 @@ function toggleS(id){
 
 /* ========== MODAL ========== */
 function openM(id){
-  const s=SVCS.find(x=>x.id===id);
+  const s = SVCS.find(x=>x.id===id);
   document.getElementById('mContent').innerHTML=`
     <div class="m-ico" style="background:${s.bg}"><i class="${s.icon}" style="color:${s.ic}"></i></div>
     <h2>${s.name}</h2><span class="m-tag-b">${s.tag}</span>
@@ -704,7 +731,7 @@ function openM(id){
   document.body.style.overflow='hidden';
 }
 function closeMO(e){if(e.target===document.getElementById('mOv'))closeM()}
-function closeM(){document.getElementById('mOv').classList.remove('active');document.body.style.overflow=''}
+function closeM(){document.getElementById('mOv').classList.remove('active');document.body.style.overflow='';}
 
 /* ========== TESTIMONIALS ========== */
 const TESTIS=[
@@ -732,9 +759,9 @@ const TESTIS=[
   {n:'Shalini Verma',r:'Fashion Designer',t:'My website gets constant compliments. It\'s elegant, fast, and perfectly represents my brand identity.',c:'#F7B8D3'},
 ];
 function buildTestis(){
-  const t=document.getElementById('tTrack');
-  t.innerHTML=[...TESTIS,...TESTIS].map(x=>{
-    const ini=x.n.split(' ').map(c=>c[0]).join('').slice(0,2);
+  const t = document.getElementById('tTrack');
+  t.innerHTML = [...TESTIS,...TESTIS].map(x=>{
+    const ini = x.n.split(' ').map(c=>c[0]).join('').slice(0,2);
     return `<div class="tc"><div class="ts">★★★★★</div><p class="tt">"${x.t}"</p><div class="ta"><div class="tav" style="background:${x.c}">${ini}</div><div><div class="tn">${x.n}</div><div class="tr">${x.r}</div></div></div></div>`;
   }).join('');
 }
@@ -742,25 +769,88 @@ function buildTestis(){
 /* ========== MARQUEE ========== */
 function buildMq(){
   const items=[['fa-utensils','Food Services'],['fa-bullhorn','Digital Marketing'],['fa-laptop-code','Web & App Dev'],['fa-coins','Financial Services'],['fa-gavel','Legal Advisory'],['fa-city','Real Estate'],['fa-ring','Marriage Bureau'],['fa-glass-cheers','Marriage Events'],['fa-charging-station','EV & Strategy']];
-  const mq=document.getElementById('mqInner');
-  mq.innerHTML=[...items,...items].map(([ic,lb])=>`<span><i class="fas ${ic}"></i>${lb}</span>`).join('');
+  const mq = document.getElementById('mqInner');
+  mq.innerHTML = [...items,...items].map(([ic,lb])=>`<span><i class="fas ${ic}"></i>${lb}</span>`).join('');
 }
 
-/* ========== NAV / REVEAL ========== */
+/* ========== CONTACT FORM — WITH EMAILJS & AUTO-CLEAR ========== */
+function clearForm() {
+  document.getElementById('f_name').value    = '';
+  document.getElementById('f_phone').value   = '';
+  document.getElementById('f_email').value   = '';
+  document.getElementById('f_service').value = '';
+  document.getElementById('f_message').value = '';
+}
+
+function subForm(e) {
+  e.preventDefault();
+  const btn  = document.getElementById('fSubBtn');
+  const name    = document.getElementById('f_name').value.trim();
+  const phone   = document.getElementById('f_phone').value.trim();
+  const email   = document.getElementById('f_email').value.trim();
+  const service = document.getElementById('f_service').value;
+  const message = document.getElementById('f_message').value.trim();
+
+  // Basic validation
+  if (!name || !phone) {
+    alert('Please enter at least your Name and Phone Number.');
+    return;
+  }
+
+  // If EmailJS is not yet configured, simulate success + clear form
+  if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
+    btn.innerHTML = '<i class="fas fa-check" style="margin-right:8px"></i>Message Sent!';
+    btn.style.background = 'linear-gradient(135deg,#10B981,#06B6D4)';
+    btn.disabled = true;
+    clearForm();
+    setTimeout(() => {
+      btn.innerHTML = '<i class="fas fa-paper-plane" style="margin-right:8px"></i>Send Message';
+      btn.style.background = '';
+      btn.disabled = false;
+    }, 3000);
+    return;
+  }
+
+  // Live EmailJS submission
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px"></i>Sending…';
+  btn.disabled = true;
+
+  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+    from_name:  name,
+    phone:      phone,
+    from_email: email || 'Not provided',
+    service:    service || 'Not specified',
+    message:    message || 'No message'
+  }).then(() => {
+    btn.innerHTML = '<i class="fas fa-check" style="margin-right:8px"></i>Message Sent!';
+    btn.style.background = 'linear-gradient(135deg,#10B981,#06B6D4)';
+    clearForm(); // ✅ Clear all fields on success
+    setTimeout(() => {
+      btn.innerHTML = '<i class="fas fa-paper-plane" style="margin-right:8px"></i>Send Message';
+      btn.style.background = '';
+      btn.disabled = false;
+    }, 3000);
+  }).catch((err) => {
+    console.error('EmailJS error:', err);
+    btn.innerHTML = '<i class="fas fa-exclamation-triangle" style="margin-right:8px"></i>Failed – Try Again';
+    btn.style.background = 'linear-gradient(135deg,#EF4444,#DC2626)';
+    btn.disabled = false;
+    setTimeout(() => {
+      btn.innerHTML = '<i class="fas fa-paper-plane" style="margin-right:8px"></i>Send Message';
+      btn.style.background = '';
+    }, 3000);
+  });
+}
+
+/* ========== NAV / SCROLL / REVEAL ========== */
 window.addEventListener('scroll',()=>{
-  document.getElementById('nav').classList.toggle('scrolled',scrollY>60);
-  document.getElementById('bTop').classList.toggle('show',scrollY>300);
+  document.getElementById('nav').classList.toggle('scrolled', scrollY > 60);
+  document.getElementById('bTop').classList.toggle('show', scrollY > 300);
 });
 document.getElementById('ham').addEventListener('click',()=>document.getElementById('mMenu').classList.toggle('open'));
-function cM(){document.getElementById('mMenu').classList.remove('open')}
-const ro=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('on');ro.unobserve(x.target)}})},{threshold:.1});
-function initReveal(){document.querySelectorAll('.reveal,.rl,.rr').forEach(el=>ro.observe(el))}
-function subForm(e){
-  e.preventDefault();const b=e.target;
-  b.innerHTML='<i class="fas fa-check" style="margin-right:8px"></i>Message Sent!';
-  b.style.background='linear-gradient(135deg,#10B981,#06B6D4)';
-  setTimeout(()=>{b.innerHTML='<i class="fas fa-paper-plane" style="margin-right:8px"></i>Send Message';b.style.background='';},3000);
-}
+function cM(){document.getElementById('mMenu').classList.remove('open');}
+const ro = new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('on');ro.unobserve(x.target)}})},{threshold:.1});
+function initReveal(){document.querySelectorAll('.reveal,.rl,.rr').forEach(el=>ro.observe(el));}
 
 /* ========== INIT ========== */
 buildSvcs(); buildTestis(); buildMq(); initReveal();
